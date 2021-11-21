@@ -6,4 +6,6 @@ const vanityurl = 'oye71';
 
 (async() => {
     await functions.getLastMatch(vanityurl);
+
+    await functions.getCurrentPlayerInfos(vanityurl);
 })();
