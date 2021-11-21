@@ -1,11 +1,16 @@
+const CONFIG = require('./local.config.json') // TODO : Seulement en local, faire ça avec les variables d'environnement
 const functions = require('./functions.js');
+const {Client, Intents} = require('discord.js');
+const client =  new Client({ intents: [Intents.FLAGS.GUILDS] });
 
-// Pour les tests uniquement
-// A voir pour map ça sur une requete de bot discord
-const vanityurl = 'oye71';
+client.once('ready', () => {
+    console.log("Discord client is ready");
+    client.login(CONFIG.token);
+})
 
+// TODO IMPLEMENT DISCORD BOT
 (async() => {
-    await functions.getLastMatch(vanityurl);
+    await functions.getLastMatch(CONFIG.vanityurl);
 
-    await functions.getCurrentPlayerInfos(vanityurl);
+    await functions.getCurrentPlayerInfos(CONFIG.vanityurl);
 })();
