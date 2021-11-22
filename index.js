@@ -6,11 +6,11 @@ const client =  new Client({ intents: [Intents.FLAGS.GUILDS] });
 client.once('ready', () => {
     console.log("Discord client is ready");
     client.login(CONFIG.token);
-})
+});
 
 // TODO IMPLEMENT DISCORD BOT
 (async() => {
-    await functions.getLastMatch(CONFIG.vanityurl);
+    await functions.getLastMatch(CONFIG.vanityUrl);
 
-    await functions.getCurrentPlayerInfos(CONFIG.vanityurl);
+    await functions.getCurrentPlayerInfos(CONFIG.vanityUrl);
 })();

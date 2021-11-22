@@ -1,5 +1,5 @@
 const axios = require('axios');
-const CONSTANTS = require('../constants.json');
+const CONFIG = require('../local.config.json');
 
 /**
  * Retourne le steam id en fonction de la vanity url
@@ -8,7 +8,7 @@ const CONSTANTS = require('../constants.json');
  async function querySteamId(vanityurl) {
     const response = await axios.get("http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/", {
         params: {
-            key: CONSTANTS.steamApiKey,
+            key: CONFIG.steamApiKey,
             vanityurl: vanityurl
         }
     });
@@ -27,7 +27,7 @@ const CONSTANTS = require('../constants.json');
 async function querySteamName(steamid) {
     const response = await axios.get("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/", {
         params: {
-            key: CONSTANTS.steamApiKey,
+            key: CONFIG.steamApiKey,
             steamids: steamid
         }
     });
