@@ -11,10 +11,10 @@ const steamQueries = require('./apiQueries/steamQueries.js');
 async function getLastMatch(vanityurl) {
     let steamId = await steamqueries.querySteamId(vanityurl);
     let pseudo = await steamQueries.querySteamName(steamId);
-    
+
     const responseaoe2net = await aoe2queries.queryLastMatch(steamId);
     if (responseaoe2net != null) {
-        logPlayersParticipating(responseaoe2net.last_match.players, pseudo, responseaoe2net.profile_id);
+        return logPlayersParticipating(responseaoe2net.last_match.players, pseudo, responseaoe2net.profile_id);
     } else {
         throw new Error("Impossible de récupérer le dernier match du joueur !!")
     }
@@ -38,10 +38,10 @@ async function getCurrentPlayerInfos(vanityurl) {
     }
     if (rmteamresponse != null && rmteamresponse.length > 0) {
         console.log("Rating actuel de " + pseudo + " en RM Team : " + rmteamresponse[0].rating);
-    } 
+    }
     if (ew1v1response != null && ew1v1response.length > 0) {
         console.log("Rating actuel de " + pseudo + " en EW 1v1 : " + ew1v1response[0].rating);
-    } 
+    }
     if (ewteamresponse != null && ewteamresponse.length > 0) {
         console.log("Rating actuel de " + pseudo + " en EW Team : " + ewteamresponse[0].rating);
     }
@@ -50,10 +50,16 @@ async function getCurrentPlayerInfos(vanityurl) {
 function logPlayersParticipating(players, vanityurl, profileId) {
     let team1 = players.filter(x => x.team == 1);
     let team2 = players.filter(x => x.team == 2);
-    console.log(`${vanityurl} played a ${players.length / 2}v${players.length / 2} most recently.`);
-    console.log(`team1: ${getStrPlayersOfTeam(team1)}`);
-    console.log(`team2: ${getStrPlayersOfTeam(team2)}`);
-    console.log(players[0].won != null ? `${players.filter(x => x.won).some(e => e.profile_id == profileId) ? vanityurl : "opponents"} won the game !` : "They are still playing the game.");
+    let res = "";
+    res += `${vanityurl} a joué son dernier match en ${players.length / 2}v${players.length / 2}.\n`;
+    res += `Equipe 1 : ${getStrPlayersOfTeam(team1)}\n`;
+    res += `Equipe 2 : ${getStrPlayersOfTeam(team2)}\n`;
+    if (players.length / 2 > 1) {
+        res += (players[0].won != null ? `${"L'équipe de " + players.filter(x => x.won).some(e => e.profile_id == profileId) ? vanityurl : "L'équipe adverse"} a gagné !` : "La partie est toujours en cours.");
+    } else {
+        res += (players[0].won != null ? `${players.filter(x => x.won).some(e => e.profile_id == profileId) ? vanityurl : "L'adversaire"} a gagné !` : "La partie est toujours en cours.");
+    }
+    return res;
 }
 
 function getStrPlayersOfTeam(team) {
