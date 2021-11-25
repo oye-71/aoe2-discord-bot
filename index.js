@@ -16,25 +16,25 @@ client.on("interactionCreate", async (interaction) => {
         // Commande match
         if (interaction.commandName == "aoematch") {
             let vanilla = interaction.options.getString("username");
+            await interaction.reply("Requête en cours...")
             try {
-                await interaction.reply("Requête en cours...")
                 let result = await functions.getLastMatch(vanilla);
                 await interaction.editReply(result);
             } catch (e) {
                 console.error("Erreur en utilisant la commande /match : " + e);
-                interaction.reply("Je n'ai rien trouvé qui corresponde à ce pseudo, ou une erreur s'est produite. Réessaye plus tard !");
+                interaction.editReply("Je n'ai rien trouvé qui corresponde à ce pseudo, ou une erreur s'est produite. Réessaye plus tard !");
             }
         }
         // Commande rank
         else if (interaction.commandName == "aoerank") {
             let vanilla = interaction.options.getString("username");
+            await interaction.reply("Requête en cours...")
             try {
-                await interaction.reply("Requête en cours...")
                 let result = await functions.getCurrentPlayerInfos(vanilla);
                 await interaction.editReply(result);
             } catch (e) {
                 console.error("Erreur en utilisant la commande /rank : " + e);
-                interaction.reply("Je n'ai rien trouvé qui corresponde à ce pseudo, ou une erreur s'est produite. Réessaye plus tard !");
+                interaction.editReply("Je n'ai rien trouvé qui corresponde à ce pseudo, ou une erreur s'est produite. Réessaye plus tard !");
             }
         }
     }

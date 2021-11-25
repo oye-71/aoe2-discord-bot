@@ -56,8 +56,8 @@ function logPlayersParticipating(players, vanityurl, profileId) {
     res += `${vanityurl} a joué son dernier match en ${players.length / 2}v${players.length / 2}.\n`;
     res += `Equipe 1 : ${getStrPlayersOfTeam(team1)}\n`;
     res += `Equipe 2 : ${getStrPlayersOfTeam(team2)}\n`;
-    if (players.length / 2 > 1) {
-        res += (players[0].won != null ? `${"L'équipe de " + players.filter(x => x.won).some(e => e.profile_id == profileId) ? vanityurl : "L'équipe adverse"} a gagné !` : "La partie est toujours en cours.");
+    if ((players.length / 2) > 1) {
+        res += (players[0].won != null ? `${players.filter(x => x.won).some(e => e.profile_id == profileId) ? ("L'équipe de " + vanityurl) : "L'équipe adverse"} a gagné !` : "La partie est toujours en cours.");
     } else {
         res += (players[0].won != null ? `${players.filter(x => x.won).some(e => e.profile_id == profileId) ? vanityurl : "L'adversaire"} a gagné !` : "La partie est toujours en cours.");
     }
@@ -68,7 +68,7 @@ function getStrPlayersOfTeam(team) {
     let toret = "";
     for (let player of team) {
         // toret += `${player.name} (${CONSTANTS.mappings.colors[player.color]}, ${CONSTANTS.mappings.civs[player.civ_alpha]}), `;
-        toret += `${CONSTANTS.mappings.colorEmote[player.color]} ${player.name} (${CONSTANTS.mappings.civs[player.civ_alpha]}), ;`
+        toret += `${CONSTANTS.mappings.colorEmote[player.color]} ${player.name} (${CONSTANTS.mappings.civs[player.civ_alpha]}), `
     }
     toret = toret.slice(0, -1);
     return toret;
