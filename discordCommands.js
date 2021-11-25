@@ -5,7 +5,7 @@ const { discordClientId, discordGuildId, discordToken } = require('./local.confi
 
 const commands = [
 	new SlashCommandBuilder()
-		.setName('match')
+		.setName('aoematch')
 		.setDescription('Renvoie le match en cours d\'un joueur')
 		.addStringOption(option => 
 			option
@@ -14,7 +14,7 @@ const commands = [
 				.setRequired(true)
 		),
 	new SlashCommandBuilder()
-		.setName('rank')
+		.setName('aoerank')
 		.setDescription('Renvoie les classements d\'un joueur')
 		.addStringOption(option =>
 			option

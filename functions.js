@@ -33,18 +33,20 @@ async function getCurrentPlayerInfos(vanityurl) {
     const rm1v1response = await aoe2queries.queryRatingHistory(3, steamId, 1);
     const rmteamresponse = await aoe2queries.queryRatingHistory(4, steamId, 1);
 
+    let res = "";
     if (rm1v1response != null && rm1v1response.length > 0) {
-        console.log("Rating actuel de " + pseudo + " en RM 1v1 : " + rm1v1response[0].rating);
+        res += "Rating actuel de " + pseudo + " en RM 1v1 : " + rm1v1response[0].rating + "\n";
     }
     if (rmteamresponse != null && rmteamresponse.length > 0) {
-        console.log("Rating actuel de " + pseudo + " en RM Team : " + rmteamresponse[0].rating);
+        res += "Rating actuel de " + pseudo + " en RM Team : " + rmteamresponse[0].rating + "\n";
     }
     if (ew1v1response != null && ew1v1response.length > 0) {
-        console.log("Rating actuel de " + pseudo + " en EW 1v1 : " + ew1v1response[0].rating);
+        res += "Rating actuel de " + pseudo + " en EW 1v1 : " + ew1v1response[0].rating + "\n";
     }
     if (ewteamresponse != null && ewteamresponse.length > 0) {
-        console.log("Rating actuel de " + pseudo + " en EW Team : " + ewteamresponse[0].rating);
+        res += "Rating actuel de " + pseudo + " en EW Team : " + ewteamresponse[0].rating + "\n";
     }
+    return res;
 }
 
 function logPlayersParticipating(players, vanityurl, profileId) {
@@ -65,7 +67,8 @@ function logPlayersParticipating(players, vanityurl, profileId) {
 function getStrPlayersOfTeam(team) {
     let toret = "";
     for (let player of team) {
-        toret += `${player.name} (${CONSTANTS.mappings.colors[player.color]}, ${CONSTANTS.mappings.civs[player.civ_alpha]}), `;
+        // toret += `${player.name} (${CONSTANTS.mappings.colors[player.color]}, ${CONSTANTS.mappings.civs[player.civ_alpha]}), `;
+        toret += `${CONSTANTS.mappings.colorEmote[player.color]} ${player.name} (${CONSTANTS.mappings.civs[player.civ_alpha]}), ;`
     }
     toret = toret.slice(0, -1);
     return toret;

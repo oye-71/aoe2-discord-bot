@@ -13,7 +13,8 @@ client.login(CONFIG.discordToken);
 
 client.on("interactionCreate", async (interaction) => {
     if (interaction.isCommand()) {
-        if (interaction.commandName == "match") {
+        // Commande match
+        if (interaction.commandName == "aoematch") {
             let vanilla = interaction.options.getString("username");
             try {
                 await interaction.reply("Requête en cours...")
@@ -24,8 +25,17 @@ client.on("interactionCreate", async (interaction) => {
                 interaction.reply("Je n'ai rien trouvé qui corresponde à ce pseudo, ou une erreur s'est produite. Réessaye plus tard !");
             }
         }
-        else if (interaction.commandName == "rank") {
-            interaction.reply("Vous avez demandé votre elo. Cette commande est en construction.");
+        // Commande rank
+        else if (interaction.commandName == "aoerank") {
+            let vanilla = interaction.options.getString("username");
+            try {
+                await interaction.reply("Requête en cours...")
+                let result = await functions.getCurrentPlayerInfos(vanilla);
+                await interaction.editReply(result);
+            } catch (e) {
+                console.error("Erreur en utilisant la commande /rank : " + e);
+                interaction.reply("Je n'ai rien trouvé qui corresponde à ce pseudo, ou une erreur s'est produite. Réessaye plus tard !");
+            }
         }
     }
 })
