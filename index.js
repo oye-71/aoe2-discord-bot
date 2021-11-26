@@ -37,6 +37,10 @@ client.on("interactionCreate", async (interaction) => {
                 interaction.editReply("Je n'ai rien trouvé qui corresponde à ce pseudo, ou une erreur s'est produite. Réessaye plus tard !");
             }
         }
+        // Tacos ??
+        else if (interaction.commandName == "quiestlemeilleurtacos") {
+            await interaction.reply("Le tacos du Creusot bien sûr !!");
+        }
     }
 })
 

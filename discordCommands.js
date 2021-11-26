@@ -7,7 +7,7 @@ const commands = [
 	new SlashCommandBuilder()
 		.setName('aoematch')
 		.setDescription('Renvoie le match en cours d\'un joueur')
-		.addStringOption(option => 
+		.addStringOption(option =>
 			option
 				.setName("username")
 				.setDescription("L'url custom steam du joueur ciblé")
@@ -22,6 +22,9 @@ const commands = [
 				.setDescription("L'url custom steam du joueur ciblé")
 				.setRequired(true)
 		),
+	new SlashCommandBuilder()
+		.setName('quiestlemeilleurtacos')
+		.setDescription('Qui est le meilleur tacos ??')
 ].map(com => com.toJSON());
 
 const rest = new REST({ version: '9' }).setToken(discordToken);
