@@ -23,6 +23,21 @@ const commands = [
 				.setRequired(true)
 		),
 	new SlashCommandBuilder()
+		.setName('aoewinrate')
+		.setDescription('Renvoie le winrate d\'un joueur pour une civilisation donnée')
+		.addStringOption(option => 
+			option
+				.setName('username')
+				.setDescription('L\'url custom steam du joueur ciblé')
+				.setRequired(true)
+		)
+		.addStringOption(option => 
+			option
+				.setName('civ')
+				.setDescription('Le nom de la civilisation ciblée')
+				.setRequired(true)
+		),
+	new SlashCommandBuilder()
 		.setName('quiestlemeilleurtacos')
 		.setDescription('Qui est le meilleur tacos ??')
 ].map(com => com.toJSON());

@@ -32,10 +32,29 @@ async function queryRatingHistory(leaderboardid, steamid, count){
             count: count
         }
     });
-    return await response?.data
+    return response?.data
+}
+
+/**
+ * Requête aoe2.net pour avoir la liste des {count} derniers matchs joués par un joueur
+ * @param {*} steamid Id steam du joueur
+ * @param {int} count Nombre de matches requêtés
+ * @returns 
+ */
+async function queryMatches(steamid, count){
+    let response = await axios.get("https://aoe2.net/api/player/matches", {
+        params: {
+            game: CONSTANTS.game,
+            steam_id: steamid,
+            count: count,
+        }
+    });
+    // todo : quand trop de games, on arrive pas à filtrer et on tombe sur 0
+    return response?.data;
 }
 
 module.exports = {
     queryLastMatch: queryLastMatch,
-    queryRatingHistory: queryRatingHistory
+    queryRatingHistory: queryRatingHistory,
+    queryMatches: queryMatches
 }

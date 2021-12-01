@@ -33,6 +33,7 @@ async function getCurrentPlayerInfos(vanityurl) {
     const rm1v1response = await aoe2queries.queryRatingHistory(3, steamId, 1);
     const rmteamresponse = await aoe2queries.queryRatingHistory(4, steamId, 1);
 
+    // todo add streak
     let res = "";
     if (rm1v1response != null && rm1v1response.length > 0) {
         res += "Rating actuel de " + pseudo + " en RM 1v1 : " + rm1v1response[0].rating + "\n";
@@ -49,17 +50,51 @@ async function getCurrentPlayerInfos(vanityurl) {
     return res;
 }
 
-function logPlayersParticipating(players, vanityurl, profileId) {
+/**
+ * Affiche le winrate d'un joueur pour une certaine civ sur ses 1000 derniers matches
+ * @param {string} vanityurl 
+ * @param {string} civ 
+ */
+async function getWinrate(vanityurl, civ) { // todo add map
+    let steamId = await steamqueries.querySteamId(vanityurl);
+    let pseudo = await steamQueries.querySteamName(steamId);
+
+    const response = await aoe2queries.queryMatches(steamId, 1000);
+
+    let civN = null;
+    for (var prop in CONSTANTS.mappings.civs) {
+        if (CONSTANTS.mappings.civs[prop].toLowerCase() == civ.toLowerCase()) {
+            civN = parseInt(prop);
+            break;
+        }
+    }
+
+    if (civN != null && response != null) {
+        let games = response.filter(match => match.players.some(p => p.steam_id == steamId && p.civ == civN));
+        let ntot = games.length;
+        let nwon = games.filter(match => match.players.some(p => p.steam_id == steamId && p.won)).length;
+        console.log("steamid is" + steamId);
+        console.log(games.length + " games");
+        console.log("ntot =" + ntot  + "and nwon = " + nwon);
+        let perct = (nwon / ntot) * 100;
+        return `Winrate de ${pseudo} avec les ${CONSTANTS.mappings.civs[civN]} : ${Math.round((perct + Number.EPSILON) * 10) / 10}%, en ${ntot} games.`;
+    } else {
+        throw new Error("Impossible de récupérer le winrate du joueur !!");
+    }
+}
+
+
+function logPlayersParticipating(players, pseudo, profileId) {
     let team1 = players.filter(x => x.team == 1);
     let team2 = players.filter(x => x.team == 2);
     let res = "";
-    res += `${vanityurl} a joué son dernier match en ${players.length / 2}v${players.length / 2}.\n`;
+    res += `${pseudo} a joué son dernier match en ${players.length / 2}v${players.length / 2}.\n`;
     res += `Equipe 1 : ${getStrPlayersOfTeam(team1)}\n`;
     res += `Equipe 2 : ${getStrPlayersOfTeam(team2)}\n`;
     if ((players.length / 2) > 1) {
-        res += (players[0].won != null ? `${players.filter(x => x.won).some(e => e.profile_id == profileId) ? ("L'équipe de " + vanityurl) : "L'équipe adverse"} a gagné !` : "La partie est toujours en cours.");
+        res += (players[0].won != null ? `${players.filter(x => x.won).some(e => e.profile_id == profileId) ? ("L'équipe de " + pseudo) : "L'équipe adverse"} a gagné !` : "La partie est toujours en cours.");
     } else {
-        res += (players[0].won != null ? `${players.filter(x => x.won).some(e => e.profile_id == profileId) ? vanityurl : "L'adversaire"} a gagné !` : "La partie est toujours en cours.");
+        res += (players[0].won != null ? `${players.filter(x => x.won).some(e => e.profile_id == profileId) ? pseudo : "L'adversaire"} a gagné !` : "La partie est toujours en cours.");
     }
     return res;
 }
@@ -76,5 +111,6 @@ function getStrPlayersOfTeam(team) {
 
 module.exports = {
     getLastMatch: getLastMatch,
-    getCurrentPlayerInfos: getCurrentPlayerInfos
+    getCurrentPlayerInfos: getCurrentPlayerInfos,
+    getWinrate: getWinrate,
 }

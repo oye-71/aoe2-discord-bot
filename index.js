@@ -37,6 +37,19 @@ client.on("interactionCreate", async (interaction) => {
                 interaction.editReply("Je n'ai rien trouvé qui corresponde à ce pseudo, ou une erreur s'est produite. Réessaye plus tard !");
             }
         }
+        // Commande winrate
+        else if (interaction.commandName == "aoewinrate"){
+            let vanilla = interaction.options.getString("username");
+            let civ = interaction.options.getString("civ");
+            await interaction.reply("Requête en cours...")
+            try {
+                let result = await functions.getWinrate(vanilla, civ);
+                await interaction.editReply(result);
+            } catch (e) {
+                console.error("Erreur en utilisant la commande /winrate : " + e)
+                interaction.editReply("Je n'ai rien trouvé qui corresponse à ce pseudo, ou une erreur s'est produite. Réessaye plus tard !");
+            }
+        }
         // Tacos ??
         else if (interaction.commandName == "quiestlemeilleurtacos") {
             await interaction.reply("Le tacos du Creusot bien sûr !!");
