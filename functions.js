@@ -70,12 +70,9 @@ async function getWinrate(vanityurl, civ) { // todo add map
     }
 
     if (civN != null && response != null) {
-        let games = response.filter(match => match.players.some(p => p.steam_id == steamId && p.civ == civN));
+        let games = response.filter(match => match.players.some(p => p.steam_id == steamId && p.civ_alpha == civN));
         let ntot = games.length;
         let nwon = games.filter(match => match.players.some(p => p.steam_id == steamId && p.won)).length;
-        console.log("steamid is" + steamId);
-        console.log(games.length + " games");
-        console.log("ntot =" + ntot  + "and nwon = " + nwon);
         let perct = (nwon / ntot) * 100;
         return `Winrate de ${pseudo} avec les ${CONSTANTS.mappings.civs[civN]} : ${Math.round((perct + Number.EPSILON) * 10) / 10}%, en ${ntot} games.`;
     } else {
