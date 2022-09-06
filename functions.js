@@ -100,7 +100,7 @@ function getStrPlayersOfTeam(team) {
     let toret = "";
     for (let player of team) {
         // toret += `${player.name} (${CONSTANTS.mappings.colors[player.color]}, ${CONSTANTS.mappings.civs[player.civ_alpha]}), `;
-        toret += `${CONSTANTS.mappings.colorEmote[player.color]} ${player.name} (${CONSTANTS.mappings.civs[player.civ_alpha]}), `
+        toret += `\n       ${CONSTANTS.mappings.colorEmote[player.color]} ${player.name} (${CONSTANTS.mappings.civs[player.civ_alpha]}),`
     }
     toret = toret.slice(0, -1);
     return toret;

@@ -52,7 +52,7 @@ client.on("interactionCreate", async (interaction) => {
         }
         // Tacos ??
         else if (interaction.commandName == "quiestlemeilleurtacos") {
-            await interaction.reply("Le tacos du Creusot bien sûr !!");
+            await interaction.reply("Le tacos du Creusot bien sûr !! :taco:");
         }
     }
 })
